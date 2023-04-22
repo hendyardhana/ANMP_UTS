@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/itemHome">
+
+    <fragment
+        android:id="@+id/itemHome"
+        android:name="com.example.a160420138_utsanmp.view.HomeFragment"
+        android:label="List Dokter"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_itemHome_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_itemHome_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemMyProfile"
+        android:name="com.example.a160420138_utsanmp.view.MyProfileFragment"
+        android:label="Profilku"
+        tools:layout="@layout/fragment_my_profile" />
+    <fragment
+        android:id="@+id/itemHistory"
+        android:name="com.example.a160420138_utsanmp.view.HistoryFragment"
+        android:label="Riwayat"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_itemHistory_to_detailHistoryFragment"
+            app:destination="@id/detailHistoryFragment"
+            app:popUpTo="@id/detailHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemSearch"
+        android:name="com.example.a160420138_utsanmp.view.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_itemSearch_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.a160420138_utsanmp.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_itemHome"
+            app:destination="@id/itemHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.a160420138_utsanmp.view.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="idDokter"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailHistoryFragment"
+        android:name="com.example.a160420138_utsanmp.view.DetailHistoryFragment"
+        android:label="fragment_detail_history"
+        tools:layout="@layout/fragment_detail_history" >
+        <argument
+            android:name="idBooking"
+            app:argType="string" />
+    </fragment>
+</navigation>

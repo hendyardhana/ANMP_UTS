@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.DetailHistoryFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtIdBookingDetailHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="ID Booking : "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtNamaDokterDetailHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nama Dokter :"
+            app:layout_constraintStart_toStartOf="@+id/txtIdBookingDetailHistory"
+            app:layout_constraintTop_toBottomOf="@+id/txtIdBookingDetailHistory" />
+
+        <TextView
+            android:id="@+id/txtNamaPasienDetailHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nama Pasien :"
+            app:layout_constraintStart_toStartOf="@+id/txtNamaDokterDetailHistory"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamaDokterDetailHistory" />
+
+        <TextView
+            android:id="@+id/txtObatDetailHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Obat Yang Harus Diminum :"
+            app:layout_constraintStart_toStartOf="@+id/txtNamaPasienDetailHistory"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamaPasienDetailHistory" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

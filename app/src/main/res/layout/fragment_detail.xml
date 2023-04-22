@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.DetailFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageViewDetail"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:foregroundGravity="center"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBarDetail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtNameDetail"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txtNameDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Nama : "
+            app:layout_constraintStart_toEndOf="@+id/imageViewDetail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtSpecialistDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Spesialis : "
+            app:layout_constraintStart_toStartOf="@+id/txtNameDetail"
+            app:layout_constraintTop_toBottomOf="@+id/txtNameDetail" />
+
+        <TextView
+            android:id="@+id/txtScheduleDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Open From : "
+            app:layout_constraintStart_toStartOf="@+id/txtSpecialistDetail"
+            app:layout_constraintTop_toBottomOf="@+id/txtSpecialistDetail" />
+
+        <RatingBar
+            android:id="@+id/ratingBarDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:rating="3.5"
+            android:scaleX=".8"
+            android:scaleY=".8"
+            app:layout_constraintStart_toStartOf="@+id/txtScheduleDetail"
+            app:layout_constraintTop_toBottomOf="@+id/txtScheduleDetail" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageViewDetail"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBarDetail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputDescriptionDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:enabled="true"
+                android:text="INI AKAN DIISI DENGAN DESKRIPSI" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnBookDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Book Now!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

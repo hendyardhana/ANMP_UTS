@@ -1,5 +1,7 @@
 package com.example.a160420138_utsanmp.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +26,10 @@ class HistoryFragment : Fragment() {
     private lateinit var viewModel:HistoryViewModel
     private val bookingListAdapter = HistoryAdapter(arrayListOf())
 
+    companion object{
+        val sharedusername = "sharedusername"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,11 +40,20 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
-        viewModel.getData("Toni")
-        view.findViewById<RecyclerView>(R.id.recyclerViewHistoryFragment).layoutManager = LinearLayoutManager(context)
-        view.findViewById<RecyclerView>(R.id.recyclerViewHistoryFragment).adapter = bookingListAdapter
-        observeViewModel()
+        val shared: SharedPreferences = requireActivity().getSharedPreferences(HomeFragment.sharedusername, Context.MODE_PRIVATE)
+        val username = shared.getString(sharedusername, "")
+
+        if(username == ""){
+            val action = HistoryFragmentDirections.actionItemHistoryToLoginFragment()
+            Navigation.findNavController(view).navigate(action)
+        }
+        else{
+            viewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
+            viewModel.getData(username!!)
+            view.findViewById<RecyclerView>(R.id.recyclerViewHistoryFragment).layoutManager = LinearLayoutManager(context)
+            view.findViewById<RecyclerView>(R.id.recyclerViewHistoryFragment).adapter = bookingListAdapter
+            observeViewModel()
+        }
     }
 
     private fun observeViewModel() {

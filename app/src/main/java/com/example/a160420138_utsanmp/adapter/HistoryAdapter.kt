@@ -29,9 +29,9 @@ class HistoryAdapter(private val bookingList:ArrayList<Booking>):RecyclerView.Ad
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         with(holder.view){
-            findViewById<TextView>(R.id.txtIdBookingHistory).text = bookingList[position].idBook
-            findViewById<TextView>(R.id.txtNameDoctorHistory).text = bookingList[position].namaDokter
-            findViewById<TextView>(R.id.txtNamePasienHistory).text = bookingList[position].namaPasien
+            findViewById<TextView>(R.id.txtIdBookingHistory).text = "ID Booking: " + bookingList[position].idBook
+            findViewById<TextView>(R.id.txtNameDoctorHistory).text = "Dokter: " + bookingList[position].namaDokter
+            findViewById<TextView>(R.id.txtNamePasienHistory).text = "Pasien: " + bookingList[position].namaPasien
             findViewById<TextView>(R.id.txtTanggalBookingHistory).text = bookingList[position].tanggalBooking
 
             findViewById<Button>(R.id.btnLihatObatHistory).setOnClickListener {

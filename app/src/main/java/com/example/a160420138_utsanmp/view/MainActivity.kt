@@ -1,11 +1,14 @@
 package com.example.a160420138_utsanmp.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -18,10 +21,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController:NavController
     private lateinit var drawerLayout: DrawerLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    companion object{
+        val sharedusername = "sharedusername"
+    }
 
+    fun SetupMethod(){
         //Setup Drawer
         drawerLayout = findViewById(R.id.drawerLayout)
 
@@ -36,10 +40,28 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.setupWithNavController(navController)
 
-        //bottomNav.visibility = View.GONE
+//        val shared: SharedPreferences = getSharedPreferences(HomeFragment.sharedusername, Context.MODE_PRIVATE)
+//        val username = shared.getString(HomeFragment.sharedusername, "")
+//        if(username == ""){
+//            bottomNav.visibility = View.GONE
+//        }
+//        else{
+//            bottomNav.visibility = View.VISIBLE
+//        }
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        SetupMethod()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SetupMethod()
     }
 }

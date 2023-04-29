@@ -1,18 +1,28 @@
 package com.example.a160420138_utsanmp.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
-import androidx.navigation.Navigation
+import androidx.core.content.edit
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.a160420138_utsanmp.R
+import com.example.a160420138_utsanmp.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
 
-    var homef = HomeFragment()
+    private lateinit var viewModel:LoginViewModel
+    var usernames = ""
+    companion object{
+        val sharedusername = "sharedusername"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,9 +33,29 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.button).setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToItemHome()
-            Navigation.findNavController(it).navigate(action)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+        val shared:SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
+        val username = shared.getString(sharedusername, "")
+
+        view.findViewById<Button>(R.id.btnLoginLogin).setOnClickListener {
+            if(username == ""){
+                usernames = view.findViewById<EditText>(R.id.editTextUsernameLogin).text.toString()
+                viewModel.getData(usernames)
+                viewModel.userLD.observe(viewLifecycleOwner, Observer {
+                    val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
+                    shared.edit {
+                        putString(sharedusername, it.username)
+                        apply()
+                    }
+                    Toast.makeText(context, "Login In as ${it.username}! Please click back button!", Toast.LENGTH_SHORT).show()
+                })
+                view.findViewById<Button>(R.id.btnLoginLogin).isEnabled = false
+            }
+            else{
+                view.findViewById<Button>(R.id.btnLoginLogin).isEnabled = false
+                Toast.makeText(context, "Login In as $username! Please click back button!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

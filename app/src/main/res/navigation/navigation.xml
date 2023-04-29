@@ -23,7 +23,12 @@
         android:id="@+id/itemMyProfile"
         android:name="com.example.a160420138_utsanmp.view.MyProfileFragment"
         android:label="Profilku"
-        tools:layout="@layout/fragment_my_profile" />
+        tools:layout="@layout/fragment_my_profile" >
+        <action
+            android:id="@+id/action_itemMyProfile_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemHistory"
         android:name="com.example.a160420138_utsanmp.view.HistoryFragment"
@@ -33,6 +38,10 @@
             android:id="@+id/action_itemHistory_to_detailHistoryFragment"
             app:destination="@id/detailHistoryFragment"
             app:popUpTo="@id/detailHistoryFragment" />
+        <action
+            android:id="@+id/action_itemHistory_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemSearch"
@@ -43,6 +52,10 @@
             android:id="@+id/action_itemSearch_to_detailFragment"
             app:destination="@id/detailFragment"
             app:popUpTo="@id/detailFragment" />
+        <action
+            android:id="@+id/action_itemSearch_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -51,7 +64,11 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_itemHome"
-            app:destination="@id/itemHome" />
+            app:destination="@id/itemHome"
+            app:popUpTo="@id/itemHome" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -71,4 +88,9 @@
             android:name="idBooking"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.a160420138_utsanmp.view.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

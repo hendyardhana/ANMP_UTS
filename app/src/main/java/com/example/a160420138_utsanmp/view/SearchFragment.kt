@@ -1,5 +1,7 @@
 package com.example.a160420138_utsanmp.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -26,6 +29,10 @@ class SearchFragment : Fragment() {
     private val doctorListAdapter = SearchAdapter(arrayListOf())
     var search = ""
 
+    companion object{
+        val sharedusername = "sharedusername"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,25 +43,33 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val shared: SharedPreferences = requireActivity().getSharedPreferences(MyProfileFragment.sharedusername, Context.MODE_PRIVATE)
+        val username = shared.getString(MyProfileFragment.sharedusername, "")
 
-        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        viewModel.getData(search)
-        view.findViewById<RecyclerView>(R.id.recViewSearchFragment).layoutManager = LinearLayoutManager(context)
-        view.findViewById<RecyclerView>(R.id.recViewSearchFragment).adapter = doctorListAdapter
-        observeViewModel()
-
-        view.findViewById<EditText>(R.id.editTextSearch).doOnTextChanged { text, start, before, count ->
-            search = text.toString()
-            viewModel.getData(search)
-            observeViewModel()
+        if(username == ""){
+            val action = SearchFragmentDirections.actionItemSearchToLoginFragment()
+            Navigation.findNavController(view).navigate(action)
         }
-
-        view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutSearchFragment).setOnRefreshListener {
-            view.findViewById<RecyclerView>(R.id.recViewSearchFragment).visibility = View.GONE
-            view.findViewById<TextView>(R.id.txtErrorSearchFragment).visibility = View.GONE
-            view.findViewById<ProgressBar>(R.id.progressBarSearchFragment).visibility = View.VISIBLE
+        else{
+            viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
             viewModel.getData(search)
-            view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutSearchFragment).isRefreshing = false
+            view.findViewById<RecyclerView>(R.id.recViewSearchFragment).layoutManager = LinearLayoutManager(context)
+            view.findViewById<RecyclerView>(R.id.recViewSearchFragment).adapter = doctorListAdapter
+            observeViewModel()
+
+            view.findViewById<EditText>(R.id.editTextSearch).doOnTextChanged { text, start, before, count ->
+                search = text.toString()
+                viewModel.getData(search)
+                observeViewModel()
+            }
+
+            view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutSearchFragment).setOnRefreshListener {
+                view.findViewById<RecyclerView>(R.id.recViewSearchFragment).visibility = View.GONE
+                view.findViewById<TextView>(R.id.txtErrorSearchFragment).visibility = View.GONE
+                view.findViewById<ProgressBar>(R.id.progressBarSearchFragment).visibility = View.VISIBLE
+                viewModel.getData(search)
+                view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutSearchFragment).isRefreshing = false
+            }
         }
     }
 
@@ -82,5 +97,10 @@ class SearchFragment : Fragment() {
                 error?.visibility = View.GONE
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.findViewById<EditText>(R.id.editTextSearch)?.setText("")
     }
 }

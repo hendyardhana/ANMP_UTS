@@ -1,5 +1,7 @@
 package com.example.a160420138_utsanmp.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +27,9 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel:HomeViewModel
     private val doctorListAdapter = HomeAdapter(arrayListOf())
 
+    companion object{
+        val sharedusername = "sharedusername"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,18 +40,27 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        viewModel.getData()
-        view.findViewById<RecyclerView>(R.id.recViewHomeFragment).layoutManager = LinearLayoutManager(context)
-        view.findViewById<RecyclerView>(R.id.recViewHomeFragment).adapter = doctorListAdapter
-        observeViewModel()
+        val shared:SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
+        val username = shared.getString(sharedusername, "")
 
-        view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutHomeFragment).setOnRefreshListener {
-            view.findViewById<RecyclerView>(R.id.recViewHomeFragment).visibility = View.GONE
-            view.findViewById<TextView>(R.id.txtErrorHomeFragment).visibility = View.GONE
-            view.findViewById<ProgressBar>(R.id.progressBarHomeFragment).visibility = View.VISIBLE
+        if(username == ""){
+            val action = HomeFragmentDirections.actionItemHomeToLoginFragment()
+            Navigation.findNavController(view).navigate(action)
+        }
+        else{
+            viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
             viewModel.getData()
-            view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutHomeFragment).isRefreshing = false
+            view.findViewById<RecyclerView>(R.id.recViewHomeFragment).layoutManager = LinearLayoutManager(context)
+            view.findViewById<RecyclerView>(R.id.recViewHomeFragment).adapter = doctorListAdapter
+            observeViewModel()
+
+            view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutHomeFragment).setOnRefreshListener {
+                view.findViewById<RecyclerView>(R.id.recViewHomeFragment).visibility = View.GONE
+                view.findViewById<TextView>(R.id.txtErrorHomeFragment).visibility = View.GONE
+                view.findViewById<ProgressBar>(R.id.progressBarHomeFragment).visibility = View.VISIBLE
+                viewModel.getData()
+                view.findViewById<SwipeRefreshLayout>(R.id.refreshLayoutHomeFragment).isRefreshing = false
+            }
         }
     }
 

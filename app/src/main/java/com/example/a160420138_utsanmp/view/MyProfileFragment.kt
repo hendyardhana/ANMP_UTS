@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ import com.example.a160420138_utsanmp.R
 import com.example.a160420138_utsanmp.model.User
 import com.example.a160420138_utsanmp.viewmodel.MyProfileViewModel
 import com.squareup.picasso.Picasso
+import kotlin.system.exitProcess
 
 class MyProfileFragment : Fragment() {
 
@@ -55,18 +57,10 @@ class MyProfileFragment : Fragment() {
                 view.findViewById<EditText>(R.id.inputEmailMyProfile).setText(it.email)
                 Picasso.get().load(it.photo).resize(150,150).into(view.findViewById<ImageView>(R.id.imageViewMyProfile))
                 view.findViewById<EditText>(R.id.inputNameMyProfile).doOnTextChanged { text, start, before, count ->
-                    if(text != it.username){
+                    if(text == it.username){
                         view.findViewById<Button>(R.id.btnEditProfile).isEnabled = false
                     }
-                    else{
-                        view.findViewById<Button>(R.id.btnEditProfile).isEnabled = true
-                    }
-                }
-                view.findViewById<EditText>(R.id.inputEmailMyProfile).doOnTextChanged { text, start, before, count ->
-                    if(text != it.email){
-                        view.findViewById<Button>(R.id.btnEditProfile).isEnabled = false
-                    }
-                    else{
+                    else if(text != it.username){
                         view.findViewById<Button>(R.id.btnEditProfile).isEnabled = true
                     }
                 }

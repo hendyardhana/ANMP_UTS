@@ -9,11 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.a160420138_utsanmp.R
+import com.example.a160420138_utsanmp.model.User
 import com.example.a160420138_utsanmp.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -23,6 +27,7 @@ class LoginFragment : Fragment() {
     companion object{
         val sharedusername = "sharedusername"
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,19 +48,29 @@ class LoginFragment : Fragment() {
                 usernames = view.findViewById<EditText>(R.id.editTextUsernameLogin).text.toString()
                 viewModel.getData(usernames)
                 viewModel.userLD.observe(viewLifecycleOwner, Observer {
-                    val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
-                    shared.edit {
-                        putString(sharedusername, it.username)
-                        apply()
+                    if(it.username == "fail" && it.password == "fail" && it.email == "fail.ed@email.com"){
+                        Toast.makeText(context, "Login Failed! Invalid Username/Password", Toast.LENGTH_SHORT).show()
                     }
-                    Toast.makeText(context, "Login In as ${it.username}! Please click back button!", Toast.LENGTH_SHORT).show()
+                    else{
+                        val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
+                        shared.edit {
+                            putString(sharedusername, it.username)
+                            apply()
+                        }
+                        Toast.makeText(context, "Login Sucessfull as ${it.username}! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
+                        activity?.onBackPressed()
+                    }
                 })
-                view.findViewById<Button>(R.id.btnLoginLogin).isEnabled = false
             }
             else{
-                view.findViewById<Button>(R.id.btnLoginLogin).isEnabled = false
-                Toast.makeText(context, "Login In as $username! Please click back button!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login Sucessfull as $username! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
+                activity?.onBackPressed()
             }
+        }
+
+        view.findViewById<Button>(R.id.btnRegisterLogin).setOnClickListener {
+            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            Navigation.findNavController(view).navigate(action)
         }
     }
 }

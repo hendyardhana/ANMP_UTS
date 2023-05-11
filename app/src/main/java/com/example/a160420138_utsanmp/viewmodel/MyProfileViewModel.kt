@@ -25,7 +25,7 @@ class MyProfileViewModel(application: Application):AndroidViewModel(application)
 
     fun getData(username:String){
         queue = Volley.newRequestQueue(getApplication())
-        val url = "https://hendyardhana.000webhostapp.com/anmp/login.php?username=$username"
+        val url = "https://hendyardhana.000webhostapp.com/anmp/myprofile.php?username=$username"
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             {

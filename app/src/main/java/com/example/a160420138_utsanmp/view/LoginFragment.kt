@@ -24,6 +24,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var viewModel:LoginViewModel
     var usernames = ""
+    var passwords = ""
     companion object{
         val sharedusername = "sharedusername"
     }
@@ -44,27 +45,33 @@ class LoginFragment : Fragment() {
         val username = shared.getString(sharedusername, "")
 
         view.findViewById<Button>(R.id.btnLoginLogin).setOnClickListener {
-            if(username == ""){
-                usernames = view.findViewById<EditText>(R.id.editTextUsernameLogin).text.toString()
-                viewModel.getData(usernames)
-                viewModel.userLD.observe(viewLifecycleOwner, Observer {
-                    if(it.username == "fail" && it.password == "fail" && it.email == "fail.ed@email.com"){
-                        Toast.makeText(context, "Login Failed! Invalid Username/Password", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
-                        shared.edit {
-                            putString(sharedusername, it.username)
-                            apply()
+            usernames = view.findViewById<EditText>(R.id.editTextUsernameLogin).text.toString()
+            passwords = view.findViewById<EditText>(R.id.editTextPaswordLogin).text.toString()
+            if(!usernames.isEmpty() && !passwords.isEmpty()){
+                if(username == ""){
+                    viewModel.getData(usernames,passwords)
+                    viewModel.userLD.observe(viewLifecycleOwner, Observer {
+                        if(it.username == "fail" && it.password == "fail" && it.email == "fail.ed@email.com"){
+                            Toast.makeText(context, "Login Failed! Invalid Username/Password", Toast.LENGTH_SHORT).show()
                         }
-                        Toast.makeText(context, "Login Sucessfull as ${it.username}! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
-                        activity?.onBackPressed()
-                    }
-                })
+                        else{
+                            val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedusername, Context.MODE_PRIVATE)
+                            shared.edit {
+                                putString(sharedusername, it.username)
+                                apply()
+                            }
+                            Toast.makeText(context, "Login Sucessfull as ${it.username}! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
+                            activity?.onBackPressed()
+                        }
+                    })
+                }
+                else{
+                    Toast.makeText(context, "Login Sucessfull as $username! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
+                    activity?.onBackPressed()
+                }
             }
             else{
-                Toast.makeText(context, "Login Sucessfull as $username! Please Click Back To Start Application", Toast.LENGTH_SHORT).show()
-                activity?.onBackPressed()
+                Toast.makeText(context, "Fill all the Form first!!", Toast.LENGTH_SHORT).show()
             }
         }
 

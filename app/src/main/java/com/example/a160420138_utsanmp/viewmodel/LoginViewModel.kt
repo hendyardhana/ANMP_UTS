@@ -24,9 +24,9 @@ class LoginViewModel(application: Application):AndroidViewModel(application) {
         queue?.cancelAll(tags)
     }
 
-    fun getData(username:String){
+    fun getData(username:String, password:String){
         queue = Volley.newRequestQueue(getApplication())
-        val url = "https://hendyardhana.000webhostapp.com/anmp/login.php?username=$username"
+        val url = "https://hendyardhana.000webhostapp.com/anmp/login.php?username=$username&password=$password"
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             {
